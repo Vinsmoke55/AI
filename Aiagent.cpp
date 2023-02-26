@@ -57,7 +57,7 @@ int greenlight()
 		{
 			line(0,477+j,1500,477+j);	
 		}
-		delay(10);
+		
 		cleardevice();
 	
 	}
@@ -269,7 +269,7 @@ int main()
 {
 
 	int gd=DETECT,gm;
-	initgraph(&gd,&gm,"");
+	initwindow(1360,720);
 	greenlight();
 	orangelight();
 	redLightAndCheck();
