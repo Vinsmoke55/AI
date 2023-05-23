@@ -9,8 +9,8 @@ lemmatizer = WordNetLemmatizer()
 print(lemmatizer.lemmatize("cats"))
 #> bat
 
-print(lemmatizer.lemmatize(""))
-#> are
+print(lemmatizer.lemmatize("dogs"))
+
 
 print(lemmatizer.lemmatize("goes"))
 #> foot

@@ -1,34 +1,24 @@
-% Predicate to solve the 8-Queen problem
-solve_queens(Board) :-
-    length(Board, 8),        % The board has 8 rows
-    Board ins 1..8,          % The values in the board are between 1 and 8
-    safe_queens(Board),      % Check if the queens are safe
-    labeling([], Board).     % Label the board to find a solution
+solution(Queens):- 
+  permutation([1,2,3,4,5,6,7,8],Queens), 
+  safe(Queens).
 
-% Predicate to check if the queens are safe
-safe_queens([]).
-safe_queens([Q|Queens]) :-
-    safe_queens(Queens, Q, 1),
-    safe_queens(Queens).
+permutation([],[]).    
+permutation([Head|Tail],PermList):- 
+ permutation(Tail,PermTail), 
+ del(Head,PermList,PermTail).
 
-% Helper predicate to check if the current queen is safe
-safe_queens([], _, _).
-safe_queens([Q|Queens], Q0, D0) :-
-    Q0 #\= Q,                     % Queens are not in the same column
-    Q0 + D0 #\= Q,                % Queens are not in the same diagonal (down-right)
-    Q0 - D0 #\= Q,                % Queens are not in the same diagonal (up-right)
-    D1 is D0 + 1,
-    safe_queens(Queens, Q0, D1).
+del(A,[A|List],List).
+del(A,[B|List],[B|List1]):- 
+ del(A,List,List1).
 
-% Predicate to display the board
-display_board([]).
-display_board([Q|Queens]) :-
-    display_row(Q, 1),
-    display_board(Queens).
+safe([]).
+safe([Queen|Others]):- 
+ safe(Others), 
+ noattack(Queen,Others,1).
 
-% Helper predicate to display a row
-display_row(_, 9) :- nl.
-display_row(Q, Col) :-
-    (Q =:= Col -> write('Q '); write('. ')),
-    Col1 is Col + 1,
-    display_row(Q, Col1).
+noattack(_,[],_).
+noattack(Y,[Y1|Ylist],Xdist):- 
+ Y1-Y=\=Xdist,
+ Y-Y1 =\= Xdist,
+ Dist1 is Xdist +1, 
+ noattack(Y,Ylist,Dist1).
